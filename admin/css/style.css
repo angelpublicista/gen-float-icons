@@ -1,0 +1,9 @@
+#form-new-item label{
+    font-size: 12px;
+    color: #555555;
+    font-weight: bold;
+}
+
+#form-new-item .form-control{
+    max-width: 100% !important;
+}
