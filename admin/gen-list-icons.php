@@ -11,6 +11,7 @@
         $faIcon= $_POST['faIcon'];
         $iconColor = $_POST['iconColor'];
         $iconColorHover = $_POST['iconColorHover'];
+        $typeIcon = $_POST['typeIcon'];
         
         $query = "SELECT IconId FROM $tableIcons ORDER BY IconId DESC limit 1";
         $res = $wpdb->get_results($query, ARRAY_A);
@@ -25,7 +26,8 @@
             'faIcon' => $faIcon,
             'imgIcon' => null,
             'colorIcon' => $iconColor,
-            'colorIcon_hover' => $iconColorHover
+            'colorIcon_hover' => $iconColorHover,
+            'colorIcon_hover' => $typeIcon
         );
 
         $response = $wpdb->insert($tableIcons, $data);
@@ -36,6 +38,46 @@
 
     if(empty($icons_list)){
         $icons_list = array();
+    }
+
+    if(isset($_POST['btnUpdate'])){
+        $id = intval($_POST['idIcon']);
+        $title = $_POST['title'];
+        $link = $_POST['link'];
+        $bgColor = $_POST['bgColor'];
+        $bgColorHover = $_POST['bgColorHover'];
+        $styleIcon = $_POST['styleIcon'];
+        $faIcon= $_POST['faIcon'];
+        $iconColor = $_POST['iconColor'];
+        $iconColorHover = $_POST['iconColorHover'];
+        $typeIcon = $_POST['typeIcon'];
+
+        $upRes = $wpdb->update($tableIcons, 
+                array(
+                    'title' => $title,
+                    'link' => $link,
+                    'bgColor' => $bgColor,
+                    'bgColor_hover' => $bgColorHover,
+                    'style' => $styleIcon,
+                    'faIcon' => $faIcon,
+                    'imgIcon' => null,
+                    'colorIcon' => $iconColor,
+                    'colorIcon_hover' => $iconColorHover,
+                    'typeIcon' => $typeIcon,
+                ),
+
+                array(
+                    'IconId' => $id
+                )
+        );
+
+        if($upRes){
+            ?>
+                <script type="text/javascript">
+                    document.location.reload(true);
+                </script>
+            <?php
+        }
     }
 ?>
 <div class="wrap">
@@ -58,7 +100,7 @@
                     data-id="<?php echo $value['IconId'] ?>"
                     data-toggle="modal" data-target="#gen-modal-update"
                     class="btn btn-primary btnUpdate"
-                    data-res=<?php echo json_encode($value); ?>
+                    data-res='<?php echo json_encode($value); ?>'
                     >Editar</a> 
                    <a href="#" data-id="<?php echo $value['IconId'] ?>" class="btn btn-secondary btnDelete">Borrar</a> 
                 </td>
@@ -176,7 +218,7 @@
       <form action="" method="post" id="form-new-item">
         <div class="modal-body">
             <div class="row">
-                <input type="hidden" name="idIcon">
+                <input type="hidden" name="idIcon" id="idIcon">
                 <div class="col-12 col-md-6">
                     <div class="form-group">
                         <label for="">Título</label>
@@ -186,7 +228,7 @@
                 <div class="col-12 col-md-6">
                     <div class="form-group">
                         <label for="">Link</label>
-                        <input name="link" type="text" class="form-control" placeholder="Ej: https://facebook.com">
+                        <input name="link" id="link" type="text" class="form-control" placeholder="Ej: https://facebook.com">
                     </div>
                 </div>
 
@@ -219,7 +261,7 @@
                 <div class="col-12 col-md-6">
                     <div class="form-group">
                         <label for="" style="display: block">Icono</label>
-                        <select class="form-control custom-select" id="typeIcon">
+                        <select class="form-control custom-select" id="typeIcon" name="typeIcon">
                             <option selected value="faIcon">Font awesome</option>
                             <option value="customIcon">Personalizado</option>
                         </select>
@@ -228,7 +270,7 @@
                 <div class="col-12 col-md-6">
                     <div class="form-group">
                         <label for="">Icono Font Awesome</label>
-                        <input name="faIcon" type="text" class="form-control" placeholder="Ej: fab fa-instagram">
+                        <input name="faIcon" id="faIcon" type="text" class="form-control" placeholder="Ej: fab fa-instagram">
                         <small><i>Ver <a href="https://fontawesome.com/" target="_blank">Font Awesome</a></i></small>
                     </div>
                 </div>
@@ -251,7 +293,7 @@
         </div>
         <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-            <button type="submit" class="btn btn-primary" id="btnSave" name="btnSave">Guardar</button>
+            <button type="submit" class="btn btn-primary" id="btnUpdate" name="btnUpdate">Guardar</button>
         </div>
       </form>
       

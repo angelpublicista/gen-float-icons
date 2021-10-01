@@ -29,6 +29,7 @@ function gen_activate(){
         imgIcon varchar(200) NULL,
         colorIcon varchar(45) NULL,
         colorIcon_hover varchar(45) NULL,
+        typeIcon varchar(45) NULL,
         PRIMARY KEY (IconId)
     );";
 

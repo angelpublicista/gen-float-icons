@@ -7,3 +7,8 @@
 #form-new-item .form-control{
     max-width: 100% !important;
 }
+
+.wp-picker-container{
+    position: relative;
+    z-index: 3;
+}

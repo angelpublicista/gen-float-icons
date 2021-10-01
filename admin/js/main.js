@@ -25,20 +25,44 @@ jQuery(function ($) {
                 }
             })
         }
+    })
 
+    $('.btnUpdate').on('click', function(){
+        var dataRes = jQuery.parseJSON($(this).attr('data-res'))
+        // const dataRes = jQuery.parseJSON($(this).attr('data-res'))
 
-        if(element.classList.contains('btnUpdate')){
-            const dataId = element.dataset.id
+        console.log(dataRes)
 
-            var formUpdate = $('#form-new-item')
+        var formUpdate = $('#form-new-item')
 
-            $('#gen-modal-update').on('shown.bs.modal', function (event) {
-                $('#gen-modal-update').find('#title').val('Mi texto')
-            })
+        $('#gen-modal-update').on('shown.bs.modal', function (event) {
 
-        }
+            // idIcon
+            $('#gen-modal-update #idIcon').val(`${dataRes.IconId}`)
+            $('#gen-modal-update #title').val(`${dataRes.title}`)
+            $('#gen-modal-update #link').val(`${dataRes.link}`)
+            // Color bg
+            $('#gen-modal-update #bgColor').val(`${dataRes.bgColor}`)
+            $('#gen-modal-update #bgColor').parent().parent().parent().find('.wp-color-result').css('background', `${dataRes.bgColor}`)
 
-        
+            // Color hover bg
+            $('#gen-modal-update #bgColorHover').val(`${dataRes.bgColor_hover}`)
+            $('#gen-modal-update #bgColorHover').parent().parent().parent().find('.wp-color-result').css('background', `${dataRes.bgColor_hover}`)
+            $("#gen-modal-update #styleIcon option[value="+dataRes.style+"]").attr("selected", true)
+            $("#gen-modal-update #typeIcon option[value="+dataRes.typeIcon+"]").attr("selected", true)
+            $("#gen-modal-update #typeIcon option[value="+dataRes.typeIcon+"]").attr("selected", true)
+            $('#gen-modal-update #faIcon').val(`${dataRes.faIcon}`)
+
+            // Color icon
+            $('#gen-modal-update #iconColor').val(`${dataRes.colorIcon}`)
+            $('#gen-modal-update #iconColor').parent().parent().parent().find('.wp-color-result').css('background', `${dataRes.colorIcon}`)
+
+            // Color icon hover
+            $('#gen-modal-update #iconColorHover').val(`${dataRes.colorIcon_hover}`)
+            $('#gen-modal-update #iconColorHover').parent().parent().parent().find('.wp-color-result').css('background', `${dataRes.colorIcon_hover}`)
+
+            // wp-color-result
+        })
     })
 
     // new Sortable(document.getElementById('gen-ul-list'), {
