@@ -22,6 +22,13 @@ function gen_activate(){
         IconId int(11) NOT NULL AUTO_INCREMENT,
         title varchar(45) NOT NULL,
         link varchar(45) NOT NULL,
+        bgColor varchar(45) NULL,
+        bgColor_hover varchar(45) NULL,
+        style varchar(45) NULL,
+        faIcon varchar(100) NULL,
+        imgIcon varchar(200) NULL,
+        colorIcon varchar(45) NULL,
+        colorIcon_hover varchar(45) NULL,
         PRIMARY KEY (IconId)
     );";
 
@@ -62,7 +69,9 @@ function gen_bootstrap_encoleJS($hook){
     wp_enqueue_style( 'wp-color-picker' );
     wp_enqueue_style( 'gen-admin-style', plugins_url( 'admin/css/style.css',__FILE__), array(), '1.0');
     wp_enqueue_script('bootstrapJs', 'https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.6.0/js/bootstrap.min.js', array('jquery'));
-    wp_enqueue_script('gen-main', plugins_url( 'admin/js/main.js',__FILE__), array('jquery', 'wp-color-picker'));
+    wp_enqueue_style('gen-font-awesome', 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.9.0/css/all.min.css');
+    wp_enqueue_script( 'sortableJs', plugins_url( 'admin/js/Sortable.min.js', __FILE__));
+    wp_enqueue_script('gen-main', plugins_url( 'admin/js/main.js',__FILE__), array('jquery', 'wp-color-picker', 'sortableJs'));
     wp_localize_script( 'gen-main', 'ajaxRequest', [
         'url' => admin_url('admin-ajax.php'),
         'security' => wp_create_nonce( 'seg' )
@@ -86,6 +95,7 @@ add_action( 'init','gen_register_scripts');
 function gen_register_scripts() {
     wp_register_style( 'gen-general-styles', plugins_url( 'public/css/style.css', __FILE__ )  );
     wp_register_style('gen-font-awesome', 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.9.0/css/all.min.css');
+    wp_register_script( 'gen-main-public', plugins_url( 'public/js/main.js', __FILE__ ), array('jquery'), '1.0');
 }
 
 // Enqueue Scripts
@@ -93,6 +103,7 @@ add_action( 'wp_enqueue_scripts', 'gen_style_encoleCSS');
 function gen_style_encoleCSS(){
     wp_enqueue_style( 'gen-general-styles');
     wp_enqueue_style('gen-font-awesome');
+    wp_enqueue_script('gen-main-public');
 }
 
 

@@ -31,15 +31,15 @@
     background-color: #0c82f7 !important;
 }
 
-.gen-float-icons__list__link.style-circle{
+.gen-float-icons__list__link.circle{
     border-radius: 50%;
 }
 
-.gen-float-icons__list__link.style-rounded{
+.gen-float-icons__list__link.rounded{
     border-radius: 8px;
 }
 
-.gen-float-icons__list__link.style-simple{
+.gen-float-icons__list__link.simple{
     background-color: transparent !important;
 }
 
@@ -78,6 +78,7 @@
     opacity: 1;
 }
 
-.gen-item{
+.gen-float-icons__item-data{
     display: none;
 }
+
