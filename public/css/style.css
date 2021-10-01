@@ -39,6 +39,10 @@
     border-radius: 8px;
 }
 
+.gen-float-icons__list__link.squared{
+    border-radius: 0px;
+}
+
 .gen-float-icons__list__link.simple{
     background-color: transparent !important;
 }
