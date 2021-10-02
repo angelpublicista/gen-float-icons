@@ -79,7 +79,93 @@
     top: -5px;
     background-color: #353535;
 }
+.gen-float-icons{
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    margin: 0 !important;
+}
 
+.gen-float-icons__list{
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    text-align: right;
+}
+
+.gen-float-icons__list__link{
+    background-color: #0c82f7;
+    border-radius: 50%;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    width: 45px;
+    height: 45px;
+    margin-top: 10px;
+    color: white;
+    text-decoration: none;
+    font-size: 18px;
+    transition: all .3s;
+}
+
+.gen-float-icons__list__link:active{
+    background-color: #0c82f7 !important;
+}
+
+.gen-float-icons__list__link.circle{
+    border-radius: 50%;
+}
+
+.gen-float-icons__list__link.rounded{
+    border-radius: 8px;
+}
+
+.gen-float-icons__list__link.squared{
+    border-radius: 0px;
+}
+
+.gen-float-icons__list__link.simple{
+    background-color: transparent !important;
+}
+
+.gen-float-icons__list__item{
+    position: relative;
+}
+
+.gen-float-icons__list__label{
+    background-color: #353535;
+    color: white;
+    font-size: 13px;
+    font-family: Arial, Helvetica, sans-serif;
+    display: inline-block;
+    padding: 3px 10px;
+    position: relative;
+    opacity: 0;
+    transition: all .3s;
+    pointer-events: none;
+    position: absolute;
+    top: 40%;
+    right: 50px;
+}
+
+.gen-float-icons__list__label::before{
+    content: '';
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    transform: rotate(45deg);
+    right: -5px;
+    top: calc(50% - 5px);
+    background-color: #353535;
+}
+
+.gen-float-icons__list__item:hover .gen-float-icons__list__label{
+    opacity: 1;
+}
+
+.gen-float-icons__item-data{
+    display: none;
+}
 .gen-float-icons__list__item:hover .gen-float-icons__list__label{
     opacity: 1;
 }
