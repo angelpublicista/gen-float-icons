@@ -47,6 +47,21 @@ function gen_activate(){
     );";
 
     $wpdb->query($genQuery2);
+
+    // Insert demo content
+    $tableIconsGen = "{$wpdb->prefix}gen_icons_general";
+    $query = "SELECT id FROM $tableIconsGen ORDER BY id DESC limit 1";
+    $res = $wpdb->get_results($query, ARRAY_A);
+    if(!$res){
+        $textLabelClose = 'Hablemos';
+        $alignLabelTextGen = 'center';
+        $data = array(
+            'textLabelClose' => $textLabelClose,
+            'alignLabelTextGen' => $alignLabelTextGen,
+        );
+
+        $response = $wpdb->insert($tableIconsGen, $data);
+    }
 }
 
 function gen_deactivate(){
