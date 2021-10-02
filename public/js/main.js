@@ -7,7 +7,6 @@ jQuery(function ($) {
                 $('.gen-link-toggle').html('<i class="fas fa-comment-dots"></i>')
             } else {
                 $('.gen-link-toggle').html('<i class="fas fa-times"></i>')
-                $('.gen-float-icons__item-data').css('display', 'flex')
             }
         })
     })
