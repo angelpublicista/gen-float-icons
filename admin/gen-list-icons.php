@@ -113,68 +113,79 @@
     }
 
 ?>
-<div class="wrap">
-    <h1><?php echo get_admin_page_title(); ?></h1>
-
-    <div class="row my-3">
-        <div class="col-12 col-md-6">
-        <h5>Configuración general</h5>
-        <form action="" method="post" class="mt-3" id="gen-form-upd-general">
-            <?php foreach($data_gen as $data): ?>
-            <fieldset>
-                <h6>Botón de apertura</h6>
-                <input type="hidden" name="idGen" id="idGen" value="<?php echo $data['id']; ?>">
-                <div class="form-group form-inline">
-                    <label for="" class="mr-3">Texto</label>
-                    <input type="text" class="form-control mr-1" id="textLabelClose" name="textLabelClose" value="<?php echo $data['textLabelClose']; ?>" disabled>
-                </div>
-
-                <div class="form-group form-inline">
-                    <label for="" class="mr-3">Alineación texto</label>
-                    <select name="alignLabelTextGen" id="alignLabelTextGen" class="form-control custom-select mr-1" disabled>
-                        <option value="center" <?php if($data['alignLabelTextGen'] == 'center'){ echo "selected";} ?>>Centro</option>
-                        <option value="left" <?php if($data['alignLabelTextGen'] == 'left'){ echo "selected";} ?>>Izquierda</option>
-                        <option value="right" <?php if($data['alignLabelTextGen'] == 'right'){ echo "selected";} ?>>Derecha</option>
-                    </select>
-                </div>
-            </fieldset>
-            
-
-            <div class="form-group mt-2">
-                <button type="button" class="btn btn-primary" id="btnEditGeneral">Editar</button>
-                <button type="submit" class="btn btn-success" id="btnSaveGeneral" name="btnSaveGeneral" disabled>Guardar</button>
-                <button type="button" class="btn btn-danger" id="btnCancelGeneral" disabled>Cancelar</button>
-            </div>
-            <?php endforeach; ?>
-        </form>
-        </div>
+<div class="wrap" style="padding: 2em">
+    <div style="display:flex; align-items: center">
+        <h1 class="admin-title-gen"><?php echo get_admin_page_title(); ?></h1>
+        <!-- Button on of -->
+        <?php foreach($data_gen as $item): ?>
+        <button class="btn-on-off <?php if($item['iconStatus'] == 'on'){echo "stat-on";}else{ echo "stat-off";} ?>" data-id="<?php echo $item['id']; ?>"></button>
+        <?php endforeach; ?>
     </div>
-    <a href="#" class="btn btn-success" style="margin: 10px 0; display: inline-block" data-toggle="modal" data-target="#gen-modal-new">Añadir nuevo icono</a>
-    <table class="wp-list-table widefat fixed striped pages">
-        <thead>
-            <th><b>Título</b></th>
-            <th><b>Link</b></th>
-            <th><b>Acciones</b></th>
-        </thead>
-        <tbody id="gen-icon-list">
-            <?php foreach($icons_list as $key => $value): ?>
-            <tr>
-                <td><?php echo $value['title']; ?></td>
-                <td><?php echo $value['link']; ?></td>
-                <td >
-                   <a 
-                    href="#"
-                    data-id="<?php echo $value['IconId'] ?>"
-                    data-toggle="modal" data-target="#gen-modal-update"
-                    class="btn btn-primary btnUpdate"
-                    data-res='<?php echo json_encode($value); ?>'
-                    >Editar</a> 
-                   <a href="#" data-id="<?php echo $value['IconId'] ?>" class="btn btn-secondary btnDelete">Borrar</a> 
-                </td>
-            </tr>
-            <?php endforeach; ?>
-        </tbody>
-    </table>
+    
+    <div class="gen-admin-content">
+        <!-- General Config -->
+        <div class="row my-3">
+            <div class="col-12 col-md-6">
+            <h5>Configuración general</h5>
+            <form action="" method="post" class="mt-3" id="gen-form-upd-general">
+                <?php foreach($data_gen as $data): ?>
+                <fieldset>
+                    <h6>Botón de apertura</h6>
+                    <input type="hidden" name="idGen" id="idGen" value="<?php echo $data['id']; ?>">
+                    <div class="form-group form-inline">
+                        <label for="" class="mr-3">Texto</label>
+                        <input type="text" class="form-control mr-1" id="textLabelClose" name="textLabelClose" value="<?php echo $data['textLabelClose']; ?>" disabled>
+                    </div>
+
+                    <div class="form-group form-inline">
+                        <label for="" class="mr-3">Alineación texto</label>
+                        <select name="alignLabelTextGen" id="alignLabelTextGen" class="form-control custom-select mr-1" disabled>
+                            <option value="center" <?php if($data['alignLabelTextGen'] == 'center'){ echo "selected";} ?>>Centro</option>
+                            <option value="left" <?php if($data['alignLabelTextGen'] == 'left'){ echo "selected";} ?>>Izquierda</option>
+                            <option value="right" <?php if($data['alignLabelTextGen'] == 'right'){ echo "selected";} ?>>Derecha</option>
+                        </select>
+                    </div>
+                </fieldset>
+                
+
+                <div class="form-group mt-2">
+                    <button type="button" class="btn btn-primary" id="btnEditGeneral">Editar</button>
+                    <button type="submit" class="btn btn-success" id="btnSaveGeneral" name="btnSaveGeneral" disabled>Guardar</button>
+                    <button type="button" class="btn btn-danger" id="btnCancelGeneral" disabled>Cancelar</button>
+                </div>
+                <?php endforeach; ?>
+            </form>
+            </div>
+        </div>
+
+        <!-- Table Icons -->
+        <a href="#" class="btn btn-success" style="margin: 10px 0; display: inline-block" data-toggle="modal" data-target="#gen-modal-new">Añadir nuevo icono</a>
+        <table class="wp-list-table widefat fixed striped pages">
+            <thead>
+                <th><b>Título</b></th>
+                <th><b>Link</b></th>
+                <th><b>Acciones</b></th>
+            </thead>
+            <tbody id="gen-icon-list">
+                <?php foreach($icons_list as $key => $value): ?>
+                <tr>
+                    <td><?php echo $value['title']; ?></td>
+                    <td><?php echo $value['link']; ?></td>
+                    <td >
+                    <a 
+                        href="#"
+                        data-id="<?php echo $value['IconId'] ?>"
+                        data-toggle="modal" data-target="#gen-modal-update"
+                        class="btn btn-primary btnUpdate"
+                        data-res='<?php echo json_encode($value); ?>'
+                        >Editar</a> 
+                    <a href="#" data-id="<?php echo $value['IconId'] ?>" class="btn btn-secondary btnDelete">Borrar</a> 
+                    </td>
+                </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
+    </div>
 </div>
 
 <!-- Modal -->

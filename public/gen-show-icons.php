@@ -7,10 +7,10 @@ function gen_show_icons(){
 
     $queryGen = "SELECT * FROM {$wpdb->prefix}gen_icons_general";
     $data_gen = $wpdb->get_results($queryGen, ARRAY_A);
+    
 
-    if(empty($icons_list) && empty($data_gen)){
+    if(empty($icons_list)){
         $icons_list = null;
-        $data_gen = null;
     } else {
         ?>
         <div class="gen-float-icons">
@@ -39,6 +39,7 @@ function gen_show_icons(){
                 <?php endforeach; ?>
 
                 <?php foreach($data_gen as $item): ?>
+                    <?php if($item['iconStatus'] == "on" && $data_gen != null): ?>
                     <li class="gen-float-icons__list__item">
                         <?php if($item['textLabelClose']): ?>
                             <span class="gen-float-icons__list__label" style="text-align:<?php echo $item['alignLabelTextGen']; ?>">
@@ -50,6 +51,7 @@ function gen_show_icons(){
                         </a>
                         
                     </li>
+                    <?php endif; ?>
                 <?php endforeach; ?>
             </ul>
         </div>

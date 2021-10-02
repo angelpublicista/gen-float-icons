@@ -1,7 +1,47 @@
 jQuery(function ($) {
-    // console.log(ajaxRequest)
+    console.log(ajaxOnOffGen)
     $('.color-field').wpColorPicker();
 
+    function on_off_icon(status, id){
+        var myStatus = status
+
+       $.ajax({
+           type: 'POST',
+           url: ajaxOnOffGen.url,
+           data: {
+               action: 'gen_change_status_icons',
+               nonce: ajaxOnOffGen.security,
+               iconStatus: myStatus,
+               id: id
+           },
+           success: function(res){
+               console.log(res)
+           }
+
+       })
+    }
+
+    if($('.btn-on-off').hasClass('stat-on')){
+        $('.gen-admin-content').show()
+    }
+
+    $('.btn-on-off').on('click', function(e){
+        e.preventDefault();
+
+        var id = $(this).attr('data-id')
+        if($(this).hasClass('stat-off')){
+            $(this).removeClass('stat-off')
+            $(this).addClass('stat-on')
+            $('.gen-admin-content').fadeIn()
+            on_off_icon('on', id)
+        } else {
+            $(this).removeClass('stat-on')
+            $(this).addClass('stat-off')
+            $('.gen-admin-content').fadeOut()
+            on_off_icon('off', id)
+        }
+    })
+    
 
 	$(document).on('click', function(e){
         const element = e.target

@@ -103,6 +103,11 @@ function gen_bootstrap_encoleJS($hook){
         'url' => admin_url('admin-ajax.php'),
         'security' => wp_create_nonce( 'seg' )
     ]);
+
+    wp_localize_script( 'gen-main', 'ajaxOnOffGen', [
+        'url' => admin_url('admin-ajax.php'),
+        'security' => wp_create_nonce( 'segur' )
+    ]);
 }
 
 add_action( 'admin_enqueue_scripts', 'gen_bootstrap_encoleJS');
@@ -151,6 +156,28 @@ function gen_delete_icon(){
 }
 
 add_action( 'wp_ajax_requestDelete', 'gen_delete_icon' );
+
+add_action('wp_ajax_nopriv_gen_change_status_icons', 'gen_on_off_status');
+add_action( 'wp_ajax_gen_change_status_icons', 'gen_on_off_status');
+
+function gen_on_off_status(){
+    global $wpdb;
+    $nonce = $_POST['nonce'];
+    
+    if(!wp_verify_nonce($nonce, 'segur')){
+        die('No tiene permisos para realizar esta acción');
+    }
+    $iconStatus = $_POST['iconStatus'];
+
+    $tableIconsGen = "{$wpdb->prefix}gen_icons_general";
+    if(isset($_POST['iconStatus'])){
+        $data = array(
+            'iconStatus' => $iconStatus
+        );
+        $upResGen = $wpdb->update($tableIconsGen, $data, array('id' => $_POST['id']));
+    }
+    return true;
+}
 
 function gen_load(){
     

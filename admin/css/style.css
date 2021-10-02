@@ -12,3 +12,52 @@
     position: relative;
     z-index: 3;
 }
+
+/* Button on off */
+.btn-on-off{
+    width: 40px;
+    height: 20px;
+    border: none;
+    background: #d7d7d7;
+    border-radius: 50px;
+    position: relative;
+    display: inline-block;
+    cursor: pointer;
+    color: white;
+    font-size: 8px;
+    font-weight: bold;
+    margin-top: 5px;
+}
+
+.btn-on-off::before{
+    width: 20px;
+    height: 20px;
+    background-color: #757575;
+    content: '';
+    position: absolute;
+    bottom: 0;
+    top: 0;
+    left: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transform: translateX(0);
+    transition: all .4s;
+}
+
+.btn-on-off.stat-on::before{
+    background-color: dodgerblue;
+    transform: translateX(100%);
+}
+
+.gen-admin-content{
+    display: none;
+}
+
+.admin-title-gen{
+    margin:0 !important; 
+    margin-right: 20px !important; 
+    padding: 0 !important;
+    font-weight: bold !important;
+}
