@@ -1,6 +1,6 @@
 .gen-float-icons{
     position: fixed;
-    bottom: 20px;
+    bottom: 30px;
     right: 20px;
     margin: 0 !important;
 }
@@ -20,7 +20,7 @@
     align-items: center;
     width: 45px;
     height: 45px;
-    margin-top: 10px;
+    margin-top: 20px;
     color: white;
     text-decoration: none;
     font-size: 18px;
@@ -49,22 +49,24 @@
 
 .gen-float-icons__list__item{
     position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
 .gen-float-icons__list__label{
     background-color: #353535;
     color: white;
-    font-size: 13px;
+    font-size: 12px;
     font-family: Arial, Helvetica, sans-serif;
-    display: inline-block;
+    display: block;
     padding: 3px 10px;
     position: relative;
-    opacity: 0;
     transition: all .3s;
     pointer-events: none;
-    position: absolute;
-    top: 40%;
-    right: 50px;
+    position: relative;
+    margin-top: 10px;
 }
 
 .gen-float-icons__list__label::before{
@@ -73,8 +75,8 @@
     width: 10px;
     height: 10px;
     transform: rotate(45deg);
-    right: -5px;
-    top: calc(50% - 5px);
+    right: calc(50% - 5px);
+    top: -5px;
     background-color: #353535;
 }
 
