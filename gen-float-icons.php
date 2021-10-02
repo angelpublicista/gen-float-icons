@@ -43,6 +43,7 @@ function gen_activate(){
         id int(11) NOT NULL AUTO_INCREMENT,
         textLabelClose varchar(45) NOT NULL,
         alignLabelTextGen varchar(45) NOT NULL,
+        iconStatus varchar(45) NOT NULL,
         PRIMARY KEY (id)
     );";
 
@@ -55,9 +56,11 @@ function gen_activate(){
     if(!$res){
         $textLabelClose = 'Hablemos';
         $alignLabelTextGen = 'center';
+        $alignLabelTextGen = 'off';
         $data = array(
             'textLabelClose' => $textLabelClose,
             'alignLabelTextGen' => $alignLabelTextGen,
+            'iconStatus' => $iconStatus,
         );
 
         $response = $wpdb->insert($tableIconsGen, $data);
