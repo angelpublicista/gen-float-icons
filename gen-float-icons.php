@@ -31,6 +31,7 @@ function gen_activate(){
         colorIcon_hover varchar(45) NULL,
         typeIcon varchar(45) NULL,
         alignLabelText varchar(45) NULL,
+        iconStatus varchar(45) NULL,
         PRIMARY KEY (IconId)
     );";
 
@@ -56,7 +57,7 @@ function gen_activate(){
     if(!$res){
         $textLabelClose = 'Hablemos';
         $alignLabelTextGen = 'center';
-        $alignLabelTextGen = 'off';
+        $iconStatus = 'off';
         $data = array(
             'textLabelClose' => $textLabelClose,
             'alignLabelTextGen' => $alignLabelTextGen,
@@ -171,15 +172,27 @@ function gen_on_off_status(){
         die('No tiene permisos para realizar esta acción');
     }
     $iconStatus = $_POST['iconStatus'];
+    $nameTable = $_POST['table'];
 
-    $tableIconsGen = "{$wpdb->prefix}gen_icons_general";
+    
+    $tableIconsGen = $wpdb->prefix . $nameTable;
+    echo $tableIconsGen;
     if(isset($_POST['iconStatus'])){
         $data = array(
             'iconStatus' => $iconStatus
         );
-        $upResGen = $wpdb->update($tableIconsGen, $data, array('id' => $_POST['id']));
+
+        if($_POST['table'] == "gen_icons"){
+            $upResGen = $wpdb->update($tableIconsGen, $data, array('IconId' => $_POST['id']));
+        }
+
+        if($_POST['table'] == "gen_icons_general"){
+            $upResGen = $wpdb->update($tableIconsGen, $data, array('id' => $_POST['id']));
+        }
+        
     }
     return true;
+    die;
 }
 
 function gen_load(){

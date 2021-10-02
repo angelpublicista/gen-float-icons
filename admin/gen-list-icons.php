@@ -118,7 +118,7 @@
         <h1 class="admin-title-gen"><?php echo get_admin_page_title(); ?></h1>
         <!-- Button on of -->
         <?php foreach($data_gen as $item): ?>
-        <button class="btn-on-off <?php if($item['iconStatus'] == 'on'){echo "stat-on";}else{ echo "stat-off";} ?>" data-id="<?php echo $item['id']; ?>"></button>
+        <button id="gen-btn-content" class="btn-on-off <?php if($item['iconStatus'] == 'on'){echo "stat-on";}else{ echo "stat-off";} ?>" data-table="gen_icons_general" data-id="<?php echo $item['id']; ?>"></button>
         <?php endforeach; ?>
     </div>
     
@@ -164,6 +164,7 @@
             <thead>
                 <th><b>Título</b></th>
                 <th><b>Link</b></th>
+                <th><b>Estado</b></th>
                 <th><b>Acciones</b></th>
             </thead>
             <tbody id="gen-icon-list">
@@ -171,6 +172,9 @@
                 <tr>
                     <td><?php echo $value['title']; ?></td>
                     <td><?php echo $value['link']; ?></td>
+                    <td>
+                        <button id="gen-btn-content" class="btn-on-off <?php if($value['iconStatus'] == 'on'){echo "stat-on";}else{ echo "stat-off";} ?>" data-table="gen_icons" data-id="<?php echo $value['IconId']; ?>"></button>
+                    </td>
                     <td >
                     <a 
                         href="#"

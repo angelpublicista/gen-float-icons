@@ -1,8 +1,7 @@
 jQuery(function ($) {
-    console.log(ajaxOnOffGen)
     $('.color-field').wpColorPicker();
 
-    function on_off_icon(status, id){
+    function on_off_icon(status, id, table){
         var myStatus = status
 
        $.ajax({
@@ -12,7 +11,8 @@ jQuery(function ($) {
                action: 'gen_change_status_icons',
                nonce: ajaxOnOffGen.security,
                iconStatus: myStatus,
-               id: id
+               id: id,
+               table: table
            },
            success: function(res){
                console.log(res)
@@ -25,20 +25,32 @@ jQuery(function ($) {
         $('.gen-admin-content').show()
     }
 
+
+    // $('.btn-on-off').each(function() {
+    //     console.log($)
+    // })
+
     $('.btn-on-off').on('click', function(e){
         e.preventDefault();
 
         var id = $(this).attr('data-id')
+        var table = $(this).attr('data-table')
+
         if($(this).hasClass('stat-off')){
             $(this).removeClass('stat-off')
             $(this).addClass('stat-on')
-            $('.gen-admin-content').fadeIn()
-            on_off_icon('on', id)
+            on_off_icon('on', id, table)
+            
+            if(table == "gen_icons_general"){
+                $('.gen-admin-content').fadeIn()
+            }
         } else {
             $(this).removeClass('stat-on')
             $(this).addClass('stat-off')
-            $('.gen-admin-content').fadeOut()
-            on_off_icon('off', id)
+            on_off_icon('off', id, table)
+            if(table == "gen_icons_general"){
+                $('.gen-admin-content').fadeOut()
+            }
         }
     })
     

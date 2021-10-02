@@ -27,6 +27,7 @@ function gen_show_icons(){
                     $json_data_css = json_encode($dataCss);
                     
                     ?>
+                    <?php if($item['iconStatus'] == "on" && $data_gen != null): ?>
                     <li data-css='<?php echo $json_data_css; ?>' class="gen-float-icons__list__item gen-float-icons__item-data">
                         <span class="gen-float-icons__list__label" style="text-align: <?php echo $item['alignLabelText']; ?>"><?php echo $item['title']; ?></span>
                         <a 
@@ -36,6 +37,7 @@ function gen_show_icons(){
                             <i class="<?php echo $item['faIcon']; ?>"></i>
                         </a>
                     </li>
+                    <?php endif; ?>
                 <?php endforeach; ?>
 
                 <?php foreach($data_gen as $item): ?>
