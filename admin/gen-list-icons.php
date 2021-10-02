@@ -12,6 +12,7 @@
         $iconColor = $_POST['iconColor'];
         $iconColorHover = $_POST['iconColorHover'];
         $typeIcon = $_POST['typeIcon'];
+        $alignLabelText = $_POST['alignLabelText'];
         
         $query = "SELECT IconId FROM $tableIcons ORDER BY IconId DESC limit 1";
         $res = $wpdb->get_results($query, ARRAY_A);
@@ -27,7 +28,8 @@
             'imgIcon' => null,
             'colorIcon' => $iconColor,
             'colorIcon_hover' => $iconColorHover,
-            'colorIcon_hover' => $typeIcon
+            'colorIcon_hover' => $typeIcon,
+            'alignLabelText' => $alignLabelText
         );
 
         $response = $wpdb->insert($tableIcons, $data);
@@ -51,6 +53,7 @@
         $iconColor = $_POST['iconColor'];
         $iconColorHover = $_POST['iconColorHover'];
         $typeIcon = $_POST['typeIcon'];
+        $alignLabelText = $_POST['alignLabelText'];
 
         $upRes = $wpdb->update($tableIcons, 
                 array(
@@ -64,6 +67,7 @@
                     'colorIcon' => $iconColor,
                     'colorIcon_hover' => $iconColorHover,
                     'typeIcon' => $typeIcon,
+                    'alignLabelText' => $alignLabelText
                 ),
 
                 array(
@@ -79,10 +83,73 @@
             <?php
         }
     }
+
+    $queryGen = "SELECT * FROM {$wpdb->prefix}gen_icons_general";
+    $data_gen = $wpdb->get_results($queryGen, ARRAY_A);
+
+    if(empty($data_gen)){
+        $data_gen = array();
+    }
+
+
+    $tableIconsGen = "{$wpdb->prefix}gen_icons_general";
+    if(isset($_POST['btnSaveGeneral'])){
+        $textLabelClose = $_POST['textLabelClose'];
+        $alignLabelTextGen = $_POST['alignLabelTextGen'];
+        $data = array(
+            'textLabelClose' => $textLabelClose,
+            'alignLabelTextGen' => $alignLabelTextGen,
+        );
+        $upResGen = $wpdb->update($tableIconsGen, $data, array('id' => $_POST['idGen']));
+
+        if($upResGen){
+            ?>
+                <script type="text/javascript">
+                    document.location.reload(true);
+                </script>
+            <?php
+        }
+
+    }
+
 ?>
 <div class="wrap">
     <h1><?php echo get_admin_page_title(); ?></h1>
-    <a href="#" class="btn btn-primary" style="margin: 10px 0; display: inline-block" data-toggle="modal" data-target="#gen-modal-new">Añadir nuevo icono</a>
+
+    <div class="row my-3">
+        <div class="col-12 col-md-6">
+        <h5>Configuración general</h5>
+        <form action="" method="post" class="mt-3" id="gen-form-upd-general">
+            <?php foreach($data_gen as $data): ?>
+            <fieldset>
+                <h6>Botón de apertura</h6>
+                <input type="hidden" name="idGen" id="idGen" value="<?php echo $data['id']; ?>">
+                <div class="form-group form-inline">
+                    <label for="" class="mr-3">Texto</label>
+                    <input type="text" class="form-control mr-1" id="textLabelClose" name="textLabelClose" value="<?php echo $data['textLabelClose']; ?>" disabled>
+                </div>
+
+                <div class="form-group form-inline">
+                    <label for="" class="mr-3">Alineación texto</label>
+                    <select name="alignLabelTextGen" id="alignLabelTextGen" class="form-control custom-select mr-1" disabled>
+                        <option value="center" <?php if($data['alignLabelTextGen'] == 'center'){ echo "selected";} ?>>Centro</option>
+                        <option value="left" <?php if($data['alignLabelTextGen'] == 'left'){ echo "selected";} ?>>Izquierda</option>
+                        <option value="right" <?php if($data['alignLabelTextGen'] == 'right'){ echo "selected";} ?>>Derecha</option>
+                    </select>
+                </div>
+            </fieldset>
+            
+
+            <div class="form-group mt-2">
+                <button type="button" class="btn btn-primary" id="btnEditGeneral">Editar</button>
+                <button type="submit" class="btn btn-success" id="btnSaveGeneral" name="btnSaveGeneral" disabled>Guardar</button>
+                <button type="button" class="btn btn-danger" id="btnCancelGeneral" disabled>Cancelar</button>
+            </div>
+            <?php endforeach; ?>
+        </form>
+        </div>
+    </div>
+    <a href="#" class="btn btn-success" style="margin: 10px 0; display: inline-block" data-toggle="modal" data-target="#gen-modal-new">Añadir nuevo icono</a>
     <table class="wp-list-table widefat fixed striped pages">
         <thead>
             <th><b>Título</b></th>
@@ -133,6 +200,16 @@
                     <div class="form-group">
                         <label for="">Link</label>
                         <input name="link" type="text" class="form-control" placeholder="Ej: https://facebook.com">
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="form-group">
+                        <label for="">Alineación texto título</label>
+                        <select name="alignLabelText" class="form-control custom-select">
+                            <option value="center" selected>Centro</option>
+                            <option value="left">Izquierda</option>
+                            <option value="right">Derecha</option>
+                        </select>
                     </div>
                 </div>
 
@@ -231,7 +308,16 @@
                         <input name="link" id="link" type="text" class="form-control" placeholder="Ej: https://facebook.com">
                     </div>
                 </div>
-
+                <div class="col-12">
+                    <div class="form-group">
+                        <label for="">Alineación texto título</label>
+                        <select name="alignLabelText" id="alignLabelText" class="form-control custom-select">
+                            <option value="center" selected>Centro</option>
+                            <option value="left">Izquierda</option>
+                            <option value="right">Derecha</option>
+                        </select>
+                    </div>
+                </div>
                 <div class="col-12 col-md-4">
                     <div class="form-group">
                         <label for="" style="display: block">Color Fondo</label>

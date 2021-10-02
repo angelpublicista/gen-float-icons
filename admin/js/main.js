@@ -41,6 +41,8 @@ jQuery(function ($) {
             $('#gen-modal-update #idIcon').val(`${dataRes.IconId}`)
             $('#gen-modal-update #title').val(`${dataRes.title}`)
             $('#gen-modal-update #link').val(`${dataRes.link}`)
+            $("#gen-modal-update #alignLabelText option[value="+dataRes.alignLabelText+"]").attr("selected", true)
+
             // Color bg
             $('#gen-modal-update #bgColor').val(`${dataRes.bgColor}`)
             $('#gen-modal-update #bgColor').parent().parent().parent().find('.wp-color-result').css('background', `${dataRes.bgColor}`)
@@ -64,6 +66,40 @@ jQuery(function ($) {
             // wp-color-result
         })
     })
+
+    $('#btnEditGeneral').on('click', function(e) {
+        e.preventDefault()
+        $('#textLabelClose').attr('disabled', false)
+        $('#alignLabelTextGen').attr('disabled', false)
+        $('#btnSaveGeneral').attr('disabled', false)
+
+        var initValLabel = $('#textLabelClose').val()
+        var initValAlign = $('#alignLabelTextGen').val()
+
+        $('#gen-form-upd-general').on('change', function() {
+            if(initValLabel != $('#textLabelClose').val() || initValAlign != $('#alignLabelTextGen').val()){
+                $('#btnCancelGeneral').attr('disabled', false)
+                
+            } else {
+                $('#btnCancelGeneral').attr('disabled', true)
+            }
+        })
+
+        $('#btnCancelGeneral').on('click', function(e) {
+            e.preventDefault();
+
+            $('#textLabelClose').val(initValLabel)
+            $('#alignLabelTextGen option').attr('selected', false)
+            $('#alignLabelTextGen option[value='+initValAlign+']').attr('selected', true)
+            
+            $('#textLabelClose').attr('disabled', true)
+            $('#alignLabelTextGen').attr('disabled', true)
+            $('#btnSaveGeneral').attr('disabled', true)
+            $('#btnCancelGeneral').attr('disabled', true)
+        })
+    })
+
+    
 
     // new Sortable(document.getElementById('gen-ul-list'), {
     //     // options here

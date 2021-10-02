@@ -30,12 +30,23 @@ function gen_activate(){
         colorIcon varchar(45) NULL,
         colorIcon_hover varchar(45) NULL,
         typeIcon varchar(45) NULL,
+        alignLabelText varchar(45) NULL,
         PRIMARY KEY (IconId)
     );";
 
     $wpdb->query($genQuery);
-    // require_once(ABSPATH . "wp-admin/includes/upgrade.php");
-    // dbDelta($genQuery);
+    
+    // Second Table
+    $gen_table_name_2 = $wpdb->prefix . 'gen_icons_general';
+
+    $genQuery2 = "CREATE TABLE IF NOT EXISTS " . $gen_table_name_2 . "(
+        id int(11) NOT NULL AUTO_INCREMENT,
+        textLabelClose varchar(45) NOT NULL,
+        alignLabelTextGen varchar(45) NOT NULL,
+        PRIMARY KEY (id)
+    );";
+
+    $wpdb->query($genQuery2);
 }
 
 function gen_deactivate(){
