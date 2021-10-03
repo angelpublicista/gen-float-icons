@@ -2,7 +2,7 @@
 
 function gen_show_icons(){
     global $wpdb;
-    $query = "SELECT * FROM {$wpdb->prefix}gen_icons";
+    $query = "SELECT * FROM {$wpdb->prefix}gen_icons ORDER BY iconOrder";
     $icons_list = $wpdb->get_results($query, ARRAY_A);
 
     $queryGen = "SELECT * FROM {$wpdb->prefix}gen_icons_general";

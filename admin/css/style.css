@@ -61,3 +61,13 @@
     padding: 0 !important;
     font-weight: bold !important;
 }
+
+.gen-icon-dragg{
+    opacity: .2;
+    cursor: unset;
+}
+
+.gen-icon-dragg.active{
+    opacity: 1;
+    cursor: move;
+}

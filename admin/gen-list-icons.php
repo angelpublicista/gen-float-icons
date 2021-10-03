@@ -35,7 +35,7 @@
         $response = $wpdb->insert($tableIcons, $data);
     }
 
-    $query = "SELECT * FROM {$wpdb->prefix}gen_icons";
+    $query = "SELECT * FROM {$wpdb->prefix}gen_icons ORDER BY iconOrder";
     $icons_list = $wpdb->get_results($query, ARRAY_A);
 
     if(empty($icons_list)){
@@ -159,18 +159,41 @@
         </div>
 
         <!-- Table Icons -->
-        <a href="#" class="btn btn-success" style="margin: 10px 0; display: inline-block" data-toggle="modal" data-target="#gen-modal-new">Añadir nuevo icono</a>
+        <div class="mb-3 d-flex justify-content-between">
+            <a href="#" class="btn btn-primary" data-toggle="modal" data-target="#gen-modal-new">
+                <span>Nuevo icono</span>
+                <i class="fas fa-plus-circle"></i>
+            </a>
+            <div class="d-flex align-items-center">
+                <a href="#" class="btn btn-link gen-list-reordering__cancel">Cancelar</a>
+                <a href="#" class="btn btn-light ml-2 gen-list-reordering" data-handle="false">
+                    <span>Reordenar</span>
+                    <i class="fas fa-sort"></i>
+                </a>
+            </div>
+        </div>
+        
         <table class="wp-list-table widefat fixed striped pages">
             <thead>
+                <th><b>Orden</b></th>
                 <th><b>Título</b></th>
                 <th><b>Link</b></th>
                 <th><b>Estado</b></th>
                 <th><b>Acciones</b></th>
             </thead>
-            <tbody id="gen-icon-list">
+            <tbody id="gen-icon-list" class="gen-icon-list">
+                <?php $i = 1; ?>
                 <?php foreach($icons_list as $key => $value): ?>
-                <tr>
-                    <td><?php echo $value['title']; ?></td>
+                <tr data-id='<?php echo $i++; ?>'>
+                    <td>
+                        <span class="gen-icon-dragg mr-3">
+                            <i class="fas fa-ellipsis-v"></i>
+                        </span>
+                        <span><?php echo $value['iconOrder'] ?></span>
+                    </td>
+                    <td>
+                        <?php echo $value['title']; ?>
+                    </td>
                     <td><?php echo $value['link']; ?></td>
                     <td>
                         <button id="gen-btn-content" class="btn-on-off <?php if($value['iconStatus'] == 'on'){echo "stat-on";}else{ echo "stat-off";} ?>" data-table="gen_icons" data-id="<?php echo $value['IconId']; ?>"></button>

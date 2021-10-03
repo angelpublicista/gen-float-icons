@@ -21,14 +21,9 @@ jQuery(function ($) {
        })
     }
 
-    if($('.btn-on-off').hasClass('stat-on')){
+    if($('#gen-btn-content').hasClass('stat-on')){
         $('.gen-admin-content').show()
     }
-
-
-    // $('.btn-on-off').each(function() {
-    //     console.log($)
-    // })
 
     $('.btn-on-off').on('click', function(e){
         e.preventDefault();
@@ -151,34 +146,100 @@ jQuery(function ($) {
         })
     })
 
-    
+    $('.gen-list-reordering__cancel').hide()
+    $('.gen-list-reordering').on('click', function(e){
+        e.preventDefault();
+        $('.gen-icon-dragg').addClass('active')
+        $('.gen-list-reordering__cancel').show()
+        
+        // $(this).find('span').text('Guardar')
 
-    // new Sortable(document.getElementById('gen-ul-list'), {
-    //     // options here
-    //     group: "localStorage-genicons",
-    //     store: {
-    //         /**
-    //          * Get the order of elements. Called once during initialization.
-    //          * @param   {Sortable}  sortable
-    //          * @returns {Array}
-    //          */
-    //         get: function (sortable) {
-    //             var order = localStorage.getItem(sortable.options.group.name);
-    //             return order ? order.split('|') : [];
-    //         },
+        if($(this).attr('data-handle') == "false"){
+            localStorage.removeItem('localStorage-genicons')
+            $('.gen-icon-list').css('opacity', .5)
+            $(this).find('span').text('Guardar')
+            $(this).removeClass('btn-light')
+            $(this).addClass('btn-primary')
+            $(this).attr('data-handle', true)
+            new Sortable(document.getElementById('gen-icon-list'), {
+                // options here
+                group: "localStorage-genicons",
+                store: {
+                    /**
+                     * Get the order of elements. Called once during initialization.
+                     * @param   {Sortable}  sortable
+                     * @returns {Array}
+                     */
+                    get: function (sortable) {
+                        var order = localStorage.getItem(sortable.options.group.name);
+                        return order ? order.split('|') : [];
+                    },
+            
+                    /**
+                     * Save the order of elements. Called onEnd (when the item is dropped).
+                     * @param {Sortable}  sortable
+                     */
+                    set: function (sortable) {
+                        var order = sortable.toArray();
+                        localStorage.setItem(sortable.options.group.name, order.join('|'));
+                    }
+                },
+                sort: true,
+                animation: 200,
+                handle: '.gen-icon-dragg',
+                dataIdAttr: 'data-id',
+            });
+        } else {
+            
+            var localItem = localStorage.getItem('localStorage-genicons');
+            if(localItem){
+                $('.gen-icon-list').css('opacity', 1)
+                $(this).find('span').text('Reordenar')
+                $(this).removeClass('btn-primary')
+                $(this).addClass('btn-light')
+                $(this).attr('data-handle', false)
+                var localArr = localItem.split("|");
+                console.log(localArr)
+
+                var updateList = []
+                $(localArr).each(function(index){
+                    var oldId = parseInt(this)
+                    var currId = parseInt(index + 1)
+
+                    updateList.push({
+                        'oldId': oldId,
+                        'currId': currId
+                    })
+
+                })
+
+                console.log(updateList)
+            } else {
+                alert('Ho haz realizado cambios')
+                return false
+            }
+        
+            
+            
+        }
+
+
+        $('.gen-list-reordering__cancel').on('click', function(e){
+            e.preventDefault()
+            $('.gen-icon-list').css('opacity', 1)
+            $('.gen-list-reordering').find('span').text('Reordenar')
+            $('.gen-list-reordering').removeClass('btn-primary')
+            $('.gen-list-reordering').addClass('btn-light')
+            $('.gen-list-reordering').attr('data-handle', false)
+            $(this).hide()
+        })
+
+        
+        
+        
+
+        
+    })
+
     
-    //         /**
-    //          * Save the order of elements. Called onEnd (when the item is dropped).
-    //          * @param {Sortable}  sortable
-    //          */
-    //         set: function (sortable) {
-    //             var order = sortable.toArray();
-    //             localStorage.setItem(sortable.options.group.name, order.join('|'));
-    //         }
-    //     },
-    //     sort: true,
-    //     animation: 200,
-    //     handle: '.gen-icon-dragg',
-    //     dataIdAttr: 'data-id',
-    // });
 });

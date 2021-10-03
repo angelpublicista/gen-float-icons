@@ -32,6 +32,7 @@ function gen_activate(){
         typeIcon varchar(45) NULL,
         alignLabelText varchar(45) NULL,
         iconStatus varchar(45) NULL,
+        iconOrder int(10) NULL,
         PRIMARY KEY (IconId)
     );";
 
@@ -176,7 +177,7 @@ function gen_on_off_status(){
 
     
     $tableIconsGen = $wpdb->prefix . $nameTable;
-    echo $tableIconsGen;
+
     if(isset($_POST['iconStatus'])){
         $data = array(
             'iconStatus' => $iconStatus
