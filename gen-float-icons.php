@@ -113,7 +113,13 @@ function gen_bootstrap_encoleJS($hook){
         'url' => admin_url('admin-ajax.php'),
         'security' => wp_create_nonce( 'segur' )
     ]);
+
+    wp_localize_script( 'gen-main', 'ajaxUpdOrder', [
+        'url' => admin_url('admin-ajax.php'),
+        'security' => wp_create_nonce( 'geniorama' )
+    ]);
 }
+
 
 add_action( 'admin_enqueue_scripts', 'gen_bootstrap_encoleJS');
 
@@ -126,7 +132,6 @@ function gen_bootstrap_encoleCSS($hook){
 
 add_action( 'admin_enqueue_scripts', 'gen_bootstrap_encoleCSS');
 
-// Scripts
 // Register Scripts
 add_action( 'init','gen_register_scripts');
 function gen_register_scripts() {
@@ -143,9 +148,11 @@ function gen_style_encoleCSS(){
     wp_enqueue_script('gen-main-public');
 }
 
+/**
+ * AJAX FUNCTIONS
+ */
 
-
-// Ajax
+add_action( 'wp_ajax_requestDelete', 'gen_delete_icon' );
 function gen_delete_icon(){
     $nonce = $_POST['nonce'];
     if(!wp_verify_nonce($nonce, 'seg')){
@@ -159,8 +166,6 @@ function gen_delete_icon(){
     $wpdb->delete($tableIcons, array('IconId' => $id));
     return true;
 }
-
-add_action( 'wp_ajax_requestDelete', 'gen_delete_icon' );
 
 add_action('wp_ajax_nopriv_gen_change_status_icons', 'gen_on_off_status');
 add_action( 'wp_ajax_gen_change_status_icons', 'gen_on_off_status');
@@ -196,8 +201,34 @@ function gen_on_off_status(){
     die;
 }
 
-function gen_load(){
+add_action('wp_ajax_nopriv_gen_upd_order', 'gen_upd_order_items');
+add_action( 'wp_ajax_gen_upd_order', 'gen_upd_order_items');
+
+function gen_upd_order_items(){
+    global $wpdb;
+    $nonce = $_POST['nonce'];
     
+    if(!wp_verify_nonce($nonce, 'geniorama')){
+        die('No tiene permisos para realizar esta acción');
+    }
+
+    $arr = $_POST['items'];
+    $tableIcons = "{$wpdb->prefix}gen_icons";
+
+    foreach($arr as $item){
+        $idOld = $item['oldId'];
+        $rewuard_ids = $wpdb->get_results("SELECT * FROM $tableIcons WHERE iconOrder = $idOld");
+        
+        // $wpdb->update($tableIcons, 
+        // array(
+        //     'iconOrder' => $item['currId']
+        // ), 
+        // array('iconOrder' => $item['oldId']));
+    }
+    wp_die();
+}
+
+function gen_load(){
     require_once(plugin_dir_path( __FILE__ ) . 'public/gen-show-icons.php');
 }
 
