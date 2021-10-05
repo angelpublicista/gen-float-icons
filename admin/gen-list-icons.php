@@ -164,18 +164,18 @@
                 <span>Nuevo icono</span>
                 <i class="fas fa-plus-circle"></i>
             </a>
-            <div class="d-flex align-items-center">
+            <!-- <div class="d-flex align-items-center">
                 <a href="#" class="btn btn-link gen-list-reordering__cancel">Cancelar</a>
                 <a href="#" class="btn btn-light ml-2 gen-list-reordering" data-handle="false">
                     <span>Reordenar</span>
                     <i class="fas fa-sort"></i>
                 </a>
-            </div>
+            </div> -->
         </div>
         
         <table class="wp-list-table widefat fixed striped pages">
             <thead>
-                <th><b>Orden</b></th>
+                <th><b>#</b></th>
                 <th><b>Título</b></th>
                 <th><b>Link</b></th>
                 <th><b>Estado</b></th>
@@ -189,7 +189,7 @@
                         <span class="gen-icon-dragg mr-3">
                             <i class="fas fa-ellipsis-v"></i>
                         </span>
-                        <span><?php echo $value['iconOrder'] ?></span>
+                        <!-- <span><?php //echo $value['iconOrder'] ?></span> -->
                     </td>
                     <td>
                         <?php echo $value['title']; ?>
