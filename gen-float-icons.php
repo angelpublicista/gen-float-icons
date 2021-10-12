@@ -3,10 +3,10 @@
 /**
  * Plugin Name: Gen Float Icons
  * Plugin URI: http://www.mywebsite.com/my-first-plugin
- * Description: The very first plugin that I have ever created.
+ * Description: Plugin para iconos flotantes
  * Version: 1.0
  * Author: Angel Burgos
- * Author URI: http://www.mywebsite.com
+ * Author URI: https://www.linkedin.com/in/angel-burgos-mesa-a5907a126/
  */
 
 if(!defined('ABSPATH')){
@@ -68,6 +68,10 @@ function gen_activate(){
 
 function gen_deactivate(){
     flush_rewrite_rules();
+}
+
+function get_delete(){
+
 }
 
 register_activation_hook(__FILE__,'gen_activate' );
