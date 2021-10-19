@@ -30,7 +30,7 @@ function gen_create_menu(){
         'manage_options',
         plugin_dir_path( __FILE__ ).'admin/gen-list-icons.php',
         null,
-        plugin_dir_url(__FILE__).'admin/img/gen-icon-plugin-02.svg',
+        plugin_dir_url(__FILE__).'admin/img/gen-icon-plugin-02-01.png',
         '8'
     );
 }
