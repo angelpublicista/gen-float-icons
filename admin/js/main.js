@@ -90,62 +90,65 @@ jQuery(function ($) {
   $(".btnUpdate").on("click", function () {
     var dataRes = jQuery.parseJSON($(this).attr("data-res"));
 
+    const objectData = dataRes.data
+    const jsonObjectData = JSON.parse(objectData)
+
     $("#gen-modal-update").on("shown.bs.modal", function (event) {
       // idIcon
       $("#gen-modal-update #idIcon").val(`${dataRes.IconId}`);
       $("#gen-modal-update #title").val(`${dataRes.title}`);
-      $("#gen-modal-update #link").val(`${dataRes.link}`);
+      $("#gen-modal-update #link").val(`${jsonObjectData.link}`);
       $(
         "#gen-modal-update #alignLabelText option[value=" +
-          dataRes.alignLabelText +
+          jsonObjectData.alignLabelText +
           "]"
       ).attr("selected", true);
 
       // Color bg
-      $("#gen-modal-update #bgColor").val(`${dataRes.bgColor}`);
+      $("#gen-modal-update #bgColor").val(`${jsonObjectData.bgColor}`);
       $("#gen-modal-update #bgColor")
         .parent()
         .parent()
         .parent()
         .find(".wp-color-result")
-        .css("background", `${dataRes.bgColor}`);
+        .css("background", `${jsonObjectData.bgColor}`);
 
       // Color hover bg
-      $("#gen-modal-update #bgColorHover").val(`${dataRes.bgColor_hover}`);
+      $("#gen-modal-update #bgColorHover").val(`${jsonObjectData.bgColor_hover}`);
       $("#gen-modal-update #bgColorHover")
         .parent()
         .parent()
         .parent()
         .find(".wp-color-result")
-        .css("background", `${dataRes.bgColor_hover}`);
+        .css("background", `${jsonObjectData.bgColor_hover}`);
       $(
-        "#gen-modal-update #styleIcon option[value=" + dataRes.style + "]"
+        "#gen-modal-update #styleIcon option[value=" + jsonObjectData.style + "]"
       ).attr("selected", true);
       $(
-        "#gen-modal-update #typeIcon option[value=" + dataRes.typeIcon + "]"
+        "#gen-modal-update #typeIcon option[value=" + jsonObjectData.typeIcon + "]"
       ).attr("selected", true);
       $(
-        "#gen-modal-update #typeIcon option[value=" + dataRes.typeIcon + "]"
+        "#gen-modal-update #typeIcon option[value=" + jsonObjectData.typeIcon + "]"
       ).attr("selected", true);
-      $("#gen-modal-update #faIcon").val(`${dataRes.faIcon}`);
+      $("#gen-modal-update #faIcon").val(`${jsonObjectData.faIcon}`);
 
       // Color icon
-      $("#gen-modal-update #iconColor").val(`${dataRes.colorIcon}`);
+      $("#gen-modal-update #iconColor").val(`${jsonObjectData.colorIcon}`);
       $("#gen-modal-update #iconColor")
         .parent()
         .parent()
         .parent()
         .find(".wp-color-result")
-        .css("background", `${dataRes.colorIcon}`);
+        .css("background", `${jsonObjectData.colorIcon}`);
 
       // Color icon hover
-      $("#gen-modal-update #iconColorHover").val(`${dataRes.colorIcon_hover}`);
+      $("#gen-modal-update #iconColorHover").val(`${jsonObjectData.colorIcon_hover}`);
       $("#gen-modal-update #iconColorHover")
         .parent()
         .parent()
         .parent()
         .find(".wp-color-result")
-        .css("background", `${dataRes.colorIcon_hover}`);
+        .css("background", `${jsonObjectData.colorIcon_hover}`);
     });
   });
 

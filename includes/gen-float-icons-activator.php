@@ -8,18 +8,8 @@ function gen_activate(){
     $genQuery = "CREATE TABLE IF NOT EXISTS " . $gen_table_name . "(
         IconId int(11) NOT NULL AUTO_INCREMENT,
         title varchar(45) NOT NULL,
-        link varchar(45) NOT NULL,
-        bgColor varchar(45) NULL,
-        bgColor_hover varchar(45) NULL,
-        style varchar(45) NULL,
-        faIcon varchar(100) NULL,
-        imgIcon varchar(200) NULL,
-        colorIcon varchar(45) NULL,
-        colorIcon_hover varchar(45) NULL,
-        typeIcon varchar(45) NULL,
-        alignLabelText varchar(45) NULL,
+        data varchar(345) NOT NULL,
         iconStatus varchar(45) NULL,
-        iconOrder int(10) NULL,
         PRIMARY KEY (IconId)
     );";
 
@@ -28,10 +18,11 @@ function gen_activate(){
     // Second Table
     $gen_table_name_2 = $wpdb->prefix . 'gen_icons_general';
 
+
+
     $genQuery2 = "CREATE TABLE IF NOT EXISTS " . $gen_table_name_2 . "(
         id int(11) NOT NULL AUTO_INCREMENT,
-        textLabelClose varchar(45) NOT NULL,
-        alignLabelTextGen varchar(45) NOT NULL,
+        data varchar(345) NOT NULL,
         iconStatus varchar(45) NOT NULL,
         PRIMARY KEY (id)
     );";
@@ -47,8 +38,12 @@ function gen_activate(){
         $alignLabelTextGen = 'center';
         $iconStatus = 'off';
         $data = array(
-            'textLabelClose' => $textLabelClose,
-            'alignLabelTextGen' => $alignLabelTextGen,
+            'data' => json_encode(
+                array(
+                    'textLabelClose' => $textLabelClose,
+                    'alignLabelTextGen' => $alignLabelTextGen,
+                )
+            ),
             'iconStatus' => $iconStatus,
         );
 

@@ -13,13 +13,8 @@
         $iconColorHover = $_POST['iconColorHover'];
         $typeIcon = $_POST['typeIcon'];
         $alignLabelText = $_POST['alignLabelText'];
-        
-        $query = "SELECT IconId FROM $tableIcons ORDER BY IconId DESC limit 1";
-        $res = $wpdb->get_results($query, ARRAY_A);
-        $nextId = $res[0]['IconId'] + 1;
-        $data = array(
-            'IconId' => null,
-            'title' => $title,
+
+        $jsonData = array(
             'link' => $link,
             'bgColor' => $bgColor,
             'bgColor_hover' => $bgColorHover,
@@ -32,10 +27,21 @@
             'alignLabelText' => $alignLabelText
         );
 
+        $jsonData = json_encode($jsonData);
+        
+        $query = "SELECT IconId FROM $tableIcons ORDER BY IconId DESC limit 1";
+        $res = $wpdb->get_results($query, ARRAY_A);
+        $nextId = $res[0]['IconId'] + 1;
+        $data = array(
+            'IconId' => null,
+            'title' => $title,
+            'data' => $jsonData
+        );
+
         $response = $wpdb->insert($tableIcons, $data);
     }
 
-    $query = "SELECT * FROM {$wpdb->prefix}gen_icons ORDER BY iconOrder";
+    $query = "SELECT * FROM {$wpdb->prefix}gen_icons";
     $icons_list = $wpdb->get_results($query, ARRAY_A);
 
     if(empty($icons_list)){
@@ -55,19 +61,25 @@
         $typeIcon = $_POST['typeIcon'];
         $alignLabelText = $_POST['alignLabelText'];
 
+        $upJsonData = array(
+            'link' => $link,
+            'bgColor' => $bgColor,
+            'bgColor_hover' => $bgColorHover,
+            'style' => $styleIcon,
+            'faIcon' => $faIcon,
+            'imgIcon' => null,
+            'colorIcon' => $iconColor,
+            'colorIcon_hover' => $iconColorHover,
+            'colorIcon_hover' => $typeIcon,
+            'alignLabelText' => $alignLabelText
+        );
+
+        $upJsonData = json_encode($upJsonData);
+
         $upRes = $wpdb->update($tableIcons, 
                 array(
                     'title' => $title,
-                    'link' => $link,
-                    'bgColor' => $bgColor,
-                    'bgColor_hover' => $bgColorHover,
-                    'style' => $styleIcon,
-                    'faIcon' => $faIcon,
-                    'imgIcon' => null,
-                    'colorIcon' => $iconColor,
-                    'colorIcon_hover' => $iconColorHover,
-                    'typeIcon' => $typeIcon,
-                    'alignLabelText' => $alignLabelText
+                    'data' => $upJsonData
                 ),
 
                 array(
@@ -97,8 +109,12 @@
         $textLabelClose = $_POST['textLabelClose'];
         $alignLabelTextGen = $_POST['alignLabelTextGen'];
         $data = array(
-            'textLabelClose' => $textLabelClose,
-            'alignLabelTextGen' => $alignLabelTextGen,
+            'data' => json_encode(
+                array(
+                    'textLabelClose' => $textLabelClose,
+                    'alignLabelTextGen' => $alignLabelTextGen,
+                )
+            )
         );
         $upResGen = $wpdb->update($tableIconsGen, $data, array('id' => $_POST['idGen']));
 
@@ -128,21 +144,24 @@
             <div class="col-12 col-md-6">
             <h5>Configuración general</h5>
             <form action="" method="post" class="mt-3" id="gen-form-upd-general">
-                <?php foreach($data_gen as $data): ?>
+                <?php foreach($data_gen as $data): 
+                    $generalData = $data['data'];
+                    $decodeGenData = json_decode($generalData);    
+                ?>
                 <fieldset>
                     <h6>Botón de apertura</h6>
                     <input type="hidden" name="idGen" id="idGen" value="<?php echo $data['id']; ?>">
                     <div class="form-group form-inline">
                         <label for="" class="mr-3">Texto</label>
-                        <input type="text" class="form-control mr-1" id="textLabelClose" name="textLabelClose" value="<?php echo $data['textLabelClose']; ?>" disabled>
+                        <input type="text" class="form-control mr-1" id="textLabelClose" name="textLabelClose" value="<?php echo $decodeGenData->textLabelClose; ?>" disabled>
                     </div>
 
                     <div class="form-group form-inline">
                         <label for="" class="mr-3">Alineación texto</label>
                         <select name="alignLabelTextGen" id="alignLabelTextGen" class="form-control custom-select mr-1" disabled>
-                            <option value="center" <?php if($data['alignLabelTextGen'] == 'center'){ echo "selected";} ?>>Centro</option>
-                            <option value="left" <?php if($data['alignLabelTextGen'] == 'left'){ echo "selected";} ?>>Izquierda</option>
-                            <option value="right" <?php if($data['alignLabelTextGen'] == 'right'){ echo "selected";} ?>>Derecha</option>
+                            <option value="center" <?php if($decodeGenData->alignLabelTextGen == 'center'){ echo "selected";} ?>>Centro</option>
+                            <option value="left" <?php if($decodeGenData->alignLabelTextGen == 'left'){ echo "selected";} ?>>Izquierda</option>
+                            <option value="right" <?php if($decodeGenData->alignLabelTextGen == 'right'){ echo "selected";} ?>>Derecha</option>
                         </select>
                     </div>
                 </fieldset>
@@ -173,6 +192,7 @@
             </div> -->
         </div>
         
+        
         <table class="wp-list-table widefat fixed striped pages">
             <thead>
                 <th><b>#</b></th>
@@ -184,6 +204,10 @@
             <tbody id="gen-icon-list" class="gen-icon-list">
                 <?php $i = 1; ?>
                 <?php foreach($icons_list as $key => $value): ?>
+                <?php  
+                    $dataIcon = $value['data'];
+                    $arrDataIcon = json_decode($dataIcon);
+                ?>
                 <tr data-id='<?php echo $i++; ?>'>
                     <td>
                         <span class="gen-icon-dragg mr-3">
@@ -192,9 +216,10 @@
                         <!-- <span><?php //echo $value['iconOrder'] ?></span> -->
                     </td>
                     <td>
+                        
                         <?php echo $value['title']; ?>
                     </td>
-                    <td><?php echo $value['link']; ?></td>
+                    <td><?php echo $arrDataIcon->link; ?></td>
                     <td>
                         <button id="gen-btn-content" class="btn-on-off <?php if($value['iconStatus'] == 'on'){echo "stat-on";}else{ echo "stat-off";} ?>" data-table="gen_icons" data-id="<?php echo $value['IconId']; ?>"></button>
                     </td>

@@ -2,7 +2,7 @@
 
 function gen_show_icons(){
     global $wpdb;
-    $query = "SELECT * FROM {$wpdb->prefix}gen_icons ORDER BY iconOrder";
+    $query = "SELECT * FROM {$wpdb->prefix}gen_icons";
     $icons_list = $wpdb->get_results($query, ARRAY_A);
 
     $queryGen = "SELECT * FROM {$wpdb->prefix}gen_icons_general";
@@ -16,12 +16,14 @@ function gen_show_icons(){
         <div class="gen-float-icons">
             <ul class="gen-float-icons__list">
                 <?php foreach($icons_list as $item):
-                    $dataCss = array(
-                        'bgColor' => $item['bgColor'],
-                        'bgColorHover' => $item['bgColor_hover'],
-                        'colorIcon' => $item['colorIcon'],
-                        'colorIconHover' => $item['colorIcon_hover'],
+                    $dataIcon = $item['data'];
+                    $arrDataIcon = json_decode($dataIcon);
 
+                    $dataCss = array(
+                        'bgColor' => $arrDataIcon->bgColor,
+                        'bgColorHover' => $arrDataIcon->bgColor_hover,
+                        'colorIcon' => $arrDataIcon->colorIcon,
+                        'colorIconHover' => $arrDataIcon->colorIcon_hover,
                     );
 
                     $json_data_css = json_encode($dataCss);
@@ -29,29 +31,31 @@ function gen_show_icons(){
                     ?>
                     <?php if($item['iconStatus'] == "on" && $data_gen != null): ?>
                     <li data-css='<?php echo $json_data_css; ?>' class="gen-float-icons__list__item gen-float-icons__item-data">
-                        <span class="gen-float-icons__list__label" style="text-align: <?php echo $item['alignLabelText']; ?>"><?php echo $item['title']; ?></span>
+                        <span class="gen-float-icons__list__label" style="text-align: <?php echo $arrDataIcon->alignLabelText; ?>"><?php echo $item['title']; ?></span>
                         <a 
-                            class="gen-float-icons__list__link gen-link <?php echo $item['style'] ?>" 
-                            href="<?php echo $item['link']; ?>"
+                            class="gen-float-icons__list__link gen-link <?php echo $arrDataIcon->style ?>" 
+                            href="<?php echo $arrDataIcon->link; ?>"
                             target="_blank">
-                            <i class="<?php echo $item['faIcon']; ?>"></i>
+                            <i class="<?php echo $arrDataIcon->faIcon; ?>"></i>
                         </a>
                     </li>
                     <?php endif; ?>
                 <?php endforeach; ?>
 
-                <?php foreach($data_gen as $item): ?>
+                <?php foreach($data_gen as $item): 
+                    $dataItem = $item['data'];
+                    $decodeDataItem = json_decode($dataItem);
+                    ?>
                     <?php if($item['iconStatus'] == "on" && $data_gen != null): ?>
                     <li class="gen-float-icons__list__item">
-                        <?php if($item['textLabelClose']): ?>
-                            <span class="gen-float-icons__list__label" style="text-align:<?php echo $item['alignLabelTextGen']; ?>">
-                                <?php echo $item['textLabelClose']; ?>
+                        <?php if($decodeDataItem->textLabelClose): ?>
+                            <span class="gen-float-icons__list__label" style="text-align:<?php echo $decodeDataItem->alignLabelTextGen; ?>">
+                                <?php echo $decodeDataItem->textLabelClose; ?>
                             </span>
                         <?php endif; ?>
                         <a class="gen-float-icons__list__link gen-link-toggle" href="#">
                             <i class="fas fa-comment-dots"></i> 
                         </a>
-                        
                     </li>
                     <?php endif; ?>
                 <?php endforeach; ?>
