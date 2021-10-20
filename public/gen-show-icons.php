@@ -18,6 +18,7 @@ function gen_show_icons(){
                 <?php foreach($icons_list as $item):
                     $dataIcon = $item['data'];
                     $arrDataIcon = json_decode($dataIcon);
+                    $id_icon = strtolower($item['title'] . '-' . $item['IconId']);
 
                     $dataCss = array(
                         'bgColor' => $arrDataIcon->bgColor,
@@ -27,10 +28,28 @@ function gen_show_icons(){
                     );
 
                     $json_data_css = json_encode($dataCss);
-                    
+
                     ?>
                     <?php if($item['iconStatus'] == "on" && $data_gen != null): ?>
-                    <li data-css='<?php echo $json_data_css; ?>' class="gen-float-icons__list__item gen-float-icons__item-data">
+
+                    <style>
+                        /* Dynamic styles */
+                        <?php echo "#". $id_icon; ?> .gen-float-icons__list__link{
+                            background: <?php echo $arrDataIcon->bgColor ?> !important;
+                            color: <?php echo $arrDataIcon->colorIcon ?> !important;
+                        }
+
+                        <?php echo "#".$id_icon; ?> .gen-float-icons__list__link:hover{
+                            background: <?php echo $arrDataIcon->bgColor_hover ?> !important;
+                            color: <?php echo $arrDataIcon->colorIcon_hover ?> !important;
+                        }
+
+                        <?php echo "#". $id_icon; ?> .gen-float-icons__list__link:active{
+                            background: <?php echo $arrDataIcon->bgColor ?> !important;
+                            color: <?php echo $arrDataIcon->colorIcon ?> !important;
+                        }
+                    </style>
+                    <li id='<?php echo $id_icon; ?>' class="gen-float-icons__list__item gen-float-icons__item-data">
                         <span class="gen-float-icons__list__label" style="text-align: <?php echo $arrDataIcon->alignLabelText; ?>"><?php echo $item['title']; ?></span>
                         <a 
                             class="gen-float-icons__list__link gen-link <?php echo $arrDataIcon->style ?>" 

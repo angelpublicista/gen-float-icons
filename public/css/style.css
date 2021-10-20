@@ -3,6 +3,7 @@
     bottom: 20px;
     right: 20px;
     margin: 0 !important;
+    z-index: 3 !important;
 }
 
 .gen-float-icons__list{
